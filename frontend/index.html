@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Posts CRUD</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./js/main.js" defer></script>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Posts CRUD</h1>
+      <p id="message" role="status"></p>
+
+      <section class="form-section">
+        <h2>Create / Edit Post</h2>
+
+        <form id="post-form">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            maxlength="255"
+            required
+            placeholder="Enter post title"
+          />
+
+          <label for="content">Content</label>
+          <textarea
+            id="content"
+            rows="5"
+            placeholder="Enter post content"
+          ></textarea>
+
+          <div class="actions">
+            <button type="submit" id="submit-btn">Add Post</button>
+            <button type="button" id="cancel-btn" hidden>Cancel Edit</button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <h2>All Posts</h2>
+        <div id="posts" aria-live="polite">Loading posts...</div>
+      </section>
+    </main>
+  </body>
+</html>
