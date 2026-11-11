@@ -28,6 +28,17 @@ async function startServer(): Promise<void> {
   try {
     await testConnection();
 
+    app.get("/api/health", (req, res) => {
+      res.status(200).json({
+        success: true,
+        message: "Application is running.",
+        data: {
+          server: "OK",
+          database: "Connected",
+        },
+      });
+    });
+
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}`);
     });
