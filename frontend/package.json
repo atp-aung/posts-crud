@@ -2,8 +2,11 @@
   "name": "posts-crud-frontend",
   "version": "1.0.0",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch"
+  },
   "devDependencies": {
-    "typescript": "^7.0.2"
+    "typescript": "^5.7.2"
   }
 }
