@@ -35,6 +35,11 @@ async function apiRequest<T>(
   return result as T;
 }
 
+// Redirect authenticated users from Login/Signup pages
+if (document.querySelector("#login-form, #signup-form")) {
+  void redirectIfAuthenticated();
+}
+
 // Login
 const loginForm = document.querySelector<HTMLFormElement>("#login-form");
 
@@ -114,4 +119,25 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
 export async function logout(): Promise<void> {
   await apiRequest("/auth/logout", "POST");
   window.location.href = "login.html";
+}
+
+// Protect pages that require authentication
+export async function requireAuth(): Promise<AuthUser> {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    window.location.href = "login.html";
+    throw new Error("Authentication required.");
+  }
+
+  return user;
+}
+
+// Redirect logged-in users away from login/signup pages
+export async function redirectIfAuthenticated(): Promise<void> {
+  const user = await getCurrentUser();
+
+  if (user) {
+    window.location.href = "index.html";
+  }
 }

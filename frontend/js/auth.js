@@ -14,6 +14,10 @@ async function apiRequest(endpoint, method = "GET", data) {
     }
     return result;
 }
+// Redirect authenticated users from Login/Signup pages
+if (document.querySelector("#login-form, #signup-form")) {
+    void redirectIfAuthenticated();
+}
 // Login
 const loginForm = document.querySelector("#login-form");
 loginForm?.addEventListener("submit", async (event) => {
@@ -76,4 +80,20 @@ export async function getCurrentUser() {
 export async function logout() {
     await apiRequest("/auth/logout", "POST");
     window.location.href = "login.html";
+}
+// Protect pages that require authentication
+export async function requireAuth() {
+    const user = await getCurrentUser();
+    if (!user) {
+        window.location.href = "login.html";
+        throw new Error("Authentication required.");
+    }
+    return user;
+}
+// Redirect logged-in users away from login/signup pages
+export async function redirectIfAuthenticated() {
+    const user = await getCurrentUser();
+    if (user) {
+        window.location.href = "index.html";
+    }
 }

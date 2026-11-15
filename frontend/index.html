@@ -42,10 +42,24 @@
       defer
     ></script>
     <!-- Compiled TypeScript -->
-    <script src="./js/main.js" defer></script>
+    <!-- <script src="./js/main.js" defer></script> -->
+    <script type="module" src="./js/main.js" defer></script>
   </head>
 
   <body>
+    <header>
+      <h1>Posts CRUD</h1>
+
+      <div>
+        <span>Welcome, </span>
+        <strong id="current-username"></strong>
+
+        <span>Role: </span>
+        <strong id="current-role"></strong>
+
+        <button id="logout-button" type="button">Logout</button>
+      </div>
+    </header>
     <!-- Top Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark app-navbar">
       <div class="container">
