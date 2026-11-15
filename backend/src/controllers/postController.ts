@@ -1,107 +1,141 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
+import * as postService from "../services/postService";
 
-import {
-  createPost,
-  getAllPosts,
-  updatePost,
-  deletePost,
-} from "../services/postService";
-
-export async function listPosts(_req: Request, res: Response): Promise<void> {
+// GET /api/posts
+export const getAllPosts: RequestHandler = async (_req, res, next) => {
   try {
-    const posts = await getAllPosts();
-    res.json(posts);
+    const posts = await postService.getAllPosts();
+
+    res.json({ posts });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to retrieve posts" });
+    next(error);
   }
-}
+};
 
-export async function addPost(req: Request, res: Response): Promise<void> {
+// GET /api/posts/:id
+export const getPostById: RequestHandler = async (req, res, next) => {
   try {
-    const { title, content } = req.body ?? {};
+    const id = Number(req.params.id);
 
-    if (typeof title !== "string" || !title.trim()) {
-      res.status(400).json({ message: "Title is required" });
+    if (!Number.isSafeInteger(id) || id <= 0) {
+      res.status(400).json({ message: "Invalid post ID." });
       return;
     }
 
-    if (content !== undefined && typeof content !== "string") {
-      res.status(400).json({ message: "Content must be a string" });
+    const post = await postService.getPostById(id);
+
+    if (!post) {
+      res.status(404).json({ message: "Post not found." });
       return;
     }
 
-    const id = await createPost({
-      title: title.trim(),
-      content,
-    });
+    res.json({ post });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// POST /api/posts
+export const createPost: RequestHandler = async (req, res, next) => {
+  try {
+    const { title, content } = req.body;
+
+    if (
+      typeof title !== "string" ||
+      typeof content !== "string" ||
+      !title.trim() ||
+      !content.trim() ||
+      title.trim().length > 255
+    ) {
+      res.status(400).json({
+        message:
+          "Valid title (maximum 255 characters) and content are required.",
+      });
+      return;
+    }
+
+    const post = await postService.createPost(
+      req.session.userId!,
+      title.trim(),
+      content.trim(),
+    );
 
     res.status(201).json({
-      message: "Post created successfully",
+      message: "Post created successfully.",
+      post,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// PUT /api/posts/:id
+export const updatePost: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const { title, content } = req.body;
+
+    if (!Number.isSafeInteger(id) || id <= 0) {
+      res.status(400).json({ message: "Invalid post ID." });
+      return;
+    }
+
+    if (
+      typeof title !== "string" ||
+      typeof content !== "string" ||
+      !title.trim() ||
+      !content.trim() ||
+      title.trim().length > 255
+    ) {
+      res.status(400).json({
+        message:
+          "Valid title (maximum 255 characters) and content are required.",
+      });
+      return;
+    }
+
+    const post = await postService.updatePost(
       id,
+      req.session.userId!,
+      title.trim(),
+      content.trim(),
+    );
+
+    if (!post) {
+      res.status(404).json({
+        message: "Post not found or you are not the owner.",
+      });
+      return;
+    }
+
+    res.json({
+      message: "Post updated successfully.",
+      post,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to create post" });
+    next(error);
   }
-}
+};
 
-export async function editPost(req: Request, res: Response): Promise<void> {
-  try {
-    const id = Number(req.params.id);
-    const { title, content } = req.body ?? {};
-
-    if (!Number.isSafeInteger(id) || id < 1) {
-      res.status(400).json({ message: "Invalid post ID" });
-      return;
-    }
-
-    if (typeof title !== "string" || !title.trim()) {
-      res.status(400).json({ message: "Title is required" });
-      return;
-    }
-
-    if (content !== undefined && typeof content !== "string") {
-      res.status(400).json({ message: "Content must be a string" });
-      return;
-    }
-
-    const updated = await updatePost(id, {
-      title: title.trim(),
-      content,
-    });
-
-    if (!updated) {
-      res.status(404).json({ message: "Post not found or unchanged" });
-      return;
-    }
-
-    res.json({ message: "Post updated successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to update post" });
-  }
-}
-
-export async function removePost(req: Request, res: Response): Promise<void> {
+// DELETE /api/posts/:id
+export const deletePost: RequestHandler = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
 
-    if (!Number.isSafeInteger(id) || id < 1) {
-      res.status(400).json({ message: "Invalid post ID" });
+    if (!Number.isSafeInteger(id) || id <= 0) {
+      res.status(400).json({ message: "Invalid post ID." });
       return;
     }
 
-    const deleted = await deletePost(id);
+    const deleted = await postService.deletePost(id);
 
     if (!deleted) {
-      res.status(404).json({ message: "Post not found" });
+      res.status(404).json({ message: "Post not found." });
       return;
     }
 
-    res.json({ message: "Post deleted successfully" });
+    res.json({ message: "Post deleted successfully." });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to delete post" });
+    next(error);
   }
-}
+};

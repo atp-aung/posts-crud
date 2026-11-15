@@ -1,53 +1,80 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import { testConnection } from "./config/database";
-import postRoutes from "./routes/postRoutes";
+import helmet from "helmet";
+import session from "express-session";
+import { pool } from "./config/database";
 import authRoutes from "./routes/authRoutes";
-
-dotenv.config();
+import postRoutes from "./routes/postRoutes";
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+const port = Number(process.env.PORT ?? 3000);
+
+app.use(helmet());
 
 app.use(
   cors({
-    origin: ["http://127.0.0.1:5500", "http://localhost:5500"],
+    origin: process.env.FRONTEND_ORIGIN,
+    credentials: true,
   }),
 );
 
 app.use(express.json());
+
+app.use(
+  session({
+    name: "posts_crud.sid",
+    secret: process.env.SESSION_SECRET ?? "development-only-change-me",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  }),
+);
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
 
-app.get("/", (_req, res) => {
-  res.json({
-    message: "Posts CRUD API is running!",
-  });
-});
-
-async function startServer(): Promise<void> {
+// Test API route
+app.get("/api/health", async (_req, res) => {
   try {
-    await testConnection();
+    await pool.query("SELECT 1");
 
-    app.get("/api/health", (req, res) => {
-      res.status(200).json({
-        success: true,
-        message: "Application is running.",
-        data: {
-          server: "OK",
-          database: "Connected",
-        },
-      });
-    });
-
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
+    res.json({
+      message: "Posts CRUD API is running",
+      database: "connected",
     });
   } catch (error) {
-    console.error("Failed to connect to MySQL:", error);
+    console.error("Database error:", error);
+
+    res.status(500).json({
+      message: "Database connection failed",
+      database: "disconnected",
+    });
+  }
+});
+
+// Start server after checking database connection
+async function startServer() {
+  try {
+    const connection = await pool.getConnection();
+
+    console.log("MySQL connection successful!");
+
+    connection.release();
+
+    app.listen(port, () => {
+      console.log(`Server running at http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.error("MySQL connection failed:", error);
     process.exit(1);
   }
 }
 
-startServer();
+void startServer();
