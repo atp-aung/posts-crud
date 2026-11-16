@@ -88,8 +88,10 @@ export async function initializePostsUI(currentUser) {
             postsTableBody.replaceChildren();
             if (posts.length === 0) {
                 const row = document.createElement("tr");
+                row.className = "border-t border-slate-100";
                 const cell = document.createElement("td");
                 cell.colSpan = 5;
+                cell.className = "px-6 py-10 text-center text-sm text-slate-400";
                 cell.textContent = "No posts found.";
                 row.appendChild(cell);
                 postsTableBody.appendChild(row);
@@ -97,21 +99,32 @@ export async function initializePostsUI(currentUser) {
             }
             posts.forEach((post) => {
                 const row = document.createElement("tr");
+                row.className =
+                    "border-t border-slate-100 transition hover:bg-slate-50";
                 const idCell = document.createElement("td");
                 idCell.textContent = String(post.id);
+                idCell.className = "whitespace-nowrap px-6 py-4 text-sm text-slate-500";
                 const titleCell = document.createElement("td");
                 titleCell.textContent = post.title;
+                titleCell.className =
+                    "max-w-xs px-6 py-4 text-sm font-semibold text-slate-800 break-words";
                 const contentCell = document.createElement("td");
                 contentCell.textContent = post.content;
+                contentCell.className =
+                    "max-w-md px-6 py-4 text-sm leading-6 text-slate-600 break-words";
                 const authorCell = document.createElement("td");
                 authorCell.textContent = post.author;
+                authorCell.className =
+                    "whitespace-nowrap px-6 py-4 text-sm text-slate-600";
                 const actionCell = document.createElement("td");
+                actionCell.className = "whitespace-nowrap px-6 py-4 text-sm";
                 // Only the owner can edit their post.
                 if (post.user_id === currentUser.id) {
                     const editButton = document.createElement("button");
                     editButton.type = "button";
                     editButton.textContent = "Edit";
-                    editButton.className = "action-button edit-button";
+                    editButton.className =
+                        "inline-flex items-center justify-center gap-1.5 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-700 transition hover:border-indigo-300 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/20";
                     editButton.addEventListener("click", () => {
                         if (!postTitle ||
                             !postContent ||
@@ -138,7 +151,8 @@ export async function initializePostsUI(currentUser) {
                     const deleteButton = document.createElement("button");
                     deleteButton.type = "button";
                     deleteButton.textContent = "Delete";
-                    deleteButton.className = "action-button delete-button";
+                    deleteButton.className =
+                        "ml-2 inline-flex items-center justify-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition hover:border-red-300 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500/20";
                     deleteButton.addEventListener("click", async () => {
                         const confirmed = window.confirm(`Are you sure you want to delete "${post.title}"?`);
                         if (!confirmed)
