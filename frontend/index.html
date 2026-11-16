@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="en">
   <head>
@@ -5,159 +6,361 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Posts CRUD | Dashboard</title>
+
     <meta
       http-equiv="Cache-Control"
       content="no-store, no-cache, must-revalidate, max-age=0"
     />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./css/style.css" />
+    <style>
+      body {
+        background-color: #f5f7fb;
+        color: #334155;
+      }
+
+      .sidebar {
+        background-color: #0f172a;
+        color: #fff;
+      }
+
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background-color: #4f46e5;
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 14px;
+        border-radius: 8px;
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: 0.2s;
+      }
+
+      .sidebar-link:hover {
+        background-color: #1e293b;
+        color: #fff;
+      }
+
+      .sidebar-link i {
+        width: 18px;
+        text-align: center;
+      }
+
+      .main-header {
+        background-color: #eef2ff;
+        border-bottom: 1px solid #e0e7ff;
+      }
+
+      .content-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      }
+
+      .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #334155;
+      }
+
+      .form-control {
+        padding: 10px 12px;
+        border-color: #cbd5e1;
+        font-size: 14px;
+      }
+
+      .form-control:focus {
+        border-color: #818cf8;
+        box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.12);
+      }
+
+      .required {
+        color: #dc2626;
+      }
+
+      .table thead th {
+        background-color: #f8fafc;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        padding: 16px 20px;
+      }
+
+      .table tbody td {
+        padding: 16px 20px;
+        vertical-align: middle;
+      }
+
+      .app-footer {
+        color: #94a3b8;
+        font-size: 13px;
+      }
+
+      @media (min-width: 768px) {
+        .sidebar {
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: 250px;
+          overflow-y: auto;
+        }
+
+        .main-wrapper {
+          margin-left: 250px;
+        }
+      }
+    </style>
 
     <!-- Compiled TypeScript -->
     <script type="module" src="./js/main.js"></script>
   </head>
 
   <body>
-    <!-- Header -->
-    <header class="app-header">
-      <div class="header-container">
-        <a href="#" class="brand"> Posts CRUD </a>
-
-        <div class="user-info">
-          <div>
-            <span>Welcome, </span>
-            <strong id="current-username"></strong>
-          </div>
+    <div class="app-shell">
+      <!-- Sidebar -->
+      <aside class="sidebar p-4">
+        <!-- Brand -->
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <div class="brand-icon">P</div>
 
           <div>
-            <span>Role: </span>
-            <strong id="current-role"></strong>
+            <h5 class="mb-0 fw-bold text-white">Posts CRUD</h5>
+            <small class="text-secondary">Content Management</small>
           </div>
-
-          <button id="logout-button" type="button" class="logout-button">
-            Logout
-          </button>
         </div>
+
+        <hr class="border-secondary opacity-25" />
+
+        <!-- Navigation -->
+        <nav class="d-grid gap-2 mt-4">
+          <a href="#post-editor" class="sidebar-link">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Create New Post</span>
+          </a>
+
+          <a href="#posts" class="sidebar-link">
+            <i class="fa-solid fa-table-list"></i>
+            <span>All Posts</span>
+          </a>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div
+          class="d-none d-md-block position-absolute bottom-0 start-0 p-4 w-100"
+        >
+          <hr class="border-secondary opacity-25" />
+          <small class="text-secondary"> Posts CRUD Application </small>
+          <div class="text-secondary mt-1" style="font-size: 11px">
+            HTML, Bootstrap & TypeScript
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Wrapper -->
+      <div class="main-wrapper">
+        <!-- Header -->
+        <header class="main-header sticky-top">
+          <div class="container-fluid px-4 py-3">
+            <div
+              class="d-flex flex-wrap align-items-center justify-content-between gap-3"
+            >
+              <div>
+                <div class="small fw-semibold text-primary">
+                  Posts CRUD / Dashboard
+                </div>
+                <h4 class="mb-0 mt-1 fw-bold text-dark">Dashboard</h4>
+              </div>
+
+              <!-- User Info -->
+              <div class="d-flex align-items-center gap-3">
+                <div
+                  class="d-flex align-items-center justify-content-center rounded-circle bg-primary-subtle text-primary fw-bold"
+                  style="width: 40px; height: 40px"
+                >
+                  <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div class="text-end">
+                  <div
+                    id="current-username"
+                    class="fw-semibold text-dark small"
+                  ></div>
+                  <div class="small text-secondary text-capitalize">
+                    <span id="current-role"></span>
+                  </div>
+                </div>
+
+                <button
+                  id="logout-button"
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                >
+                  <i class="fa-solid fa-right-from-bracket me-1"></i>
+                  Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container-fluid px-3 px-md-4 py-4">
+          <!-- Notification Message -->
+          <div
+            id="posts-message"
+            class="message mb-4"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+          <!-- Post Editor -->
+          <section
+            id="post-editor"
+            class="content-card bg-white p-3 p-md-4 mb-4"
+          >
+            <div class="mb-4">
+              <h5 class="fw-bold text-dark mb-1">
+                <i class="fa-solid fa-pen-to-square text-primary me-2"></i>
+                <span id="form-heading">Create New Post</span>
+              </h5>
+
+              <p class="text-secondary small mb-0">
+                Write a new post or update an existing one.
+              </p>
+            </div>
+
+            <form id="post-form">
+              <div class="mb-3">
+                <label for="post-title" class="form-label">
+                  Post Title <span class="required">*</span>
+                </label>
+
+                <input
+                  type="text"
+                  id="post-title"
+                  name="title"
+                  class="form-control"
+                  placeholder="Enter your post title"
+                  maxlength="255"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="post-content" class="form-label">
+                  Post Content <span class="required">*</span>
+                </label>
+
+                <textarea
+                  id="post-content"
+                  name="content"
+                  class="form-control"
+                  rows="5"
+                  placeholder="Write something interesting..."
+                  required
+                ></textarea>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa-solid fa-floppy-disk me-1"></i>
+                  Save Post
+                </button>
+
+                <button
+                  type="button"
+                  id="cancel-edit"
+                  class="btn btn-outline-secondary"
+                  hidden
+                >
+                  <i class="fa-solid fa-xmark me-1"></i>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Posts List -->
+          <section id="posts" class="content-card bg-white overflow-hidden">
+            <div class="p-3 p-md-4 border-bottom">
+              <h5 class="fw-bold text-dark mb-1">
+                <i class="fa-solid fa-table-list text-primary me-2"></i>
+                All Posts
+              </h5>
+
+              <p class="text-secondary small mb-0">
+                View and manage your published content.
+              </p>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Author</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody id="posts-table-body">
+                  <tr>
+                    <td colspan="5" class="text-center text-secondary py-5">
+                      Loading posts...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer
+            class="app-footer d-flex flex-wrap justify-content-between gap-2 mt-4"
+          >
+            <p class="mb-0">Built with HTML, Bootstrap & TypeScript</p>
+
+            <p class="mb-0">Posts CRUD Application</p>
+          </footer>
+        </main>
       </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <main class="main-container">
-      <!-- Page Heading -->
-      <section class="page-heading">
-        <span class="section-label">DASHBOARD</span>
-
-        <h1>Manage Your Posts</h1>
-
-        <p>Create, edit, and manage your posts in one place.</p>
-      </section>
-
-      <!-- Notification Message -->
-      <div
-        id="posts-message"
-        class="message"
-        role="status"
-        aria-live="polite"
-      ></div>
-
-      <!-- Post Editor -->
-      <section class="post-form-section">
-        <div class="section-heading">
-          <div>
-            <h2 id="form-heading">Create New Post</h2>
-
-            <p>Write a new post or update an existing one.</p>
-          </div>
-        </div>
-
-        <div class="form-container">
-          <form id="post-form">
-            <div class="form-group">
-              <label for="post-title">
-                Post Title
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="text"
-                id="post-title"
-                name="title"
-                placeholder="Enter your post title"
-                maxlength="255"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="post-content">
-                Post Content
-                <span class="required">*</span>
-              </label>
-
-              <textarea
-                id="post-content"
-                name="content"
-                rows="5"
-                placeholder="Write something interesting..."
-                required
-              ></textarea>
-            </div>
-
-            <div class="form-actions">
-              <button type="submit" class="primary-button">Save Post</button>
-
-              <button
-                type="button"
-                id="cancel-edit"
-                class="secondary-button"
-                hidden
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <!-- Posts List -->
-      <section class="posts-section">
-        <div class="section-heading posts-heading">
-          <div>
-            <h2>All Posts</h2>
-
-            <p>View and manage your published content.</p>
-          </div>
-
-          <span class="posts-label"> Posts Collection </span>
-        </div>
-
-        <div class="table-wrapper">
-          <table class="posts-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Author</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody id="posts-table-body">
-              <tr>
-                <td colspan="5" class="empty-message">Loading posts...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="app-footer">
-        <p>Built with HTML, CSS & TypeScript</p>
-        <p>Posts CRUD Application</p>
-      </footer>
-    </main>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
+```

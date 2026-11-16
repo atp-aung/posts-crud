@@ -106,10 +106,21 @@ signupForm?.addEventListener("submit", async (event) => {
 
     message.textContent = result.message || "Account created successfully.";
 
-    window.location.href = "login.html";
+    // Clear signup credentials
+    signupForm.reset();
+
+    // Replace signup page in browser history
+    window.location.replace("login.html");
   } catch (error) {
     message.textContent =
       error instanceof Error ? error.message : "Signup failed.";
+  }
+});
+
+// Clear signup form when returning through browser navigation
+window.addEventListener("pageshow", () => {
+  if (signupForm) {
+    signupForm.reset();
   }
 });
 

@@ -187,8 +187,12 @@ export async function initializePostsUI(
           const editButton = document.createElement("button");
 
           editButton.type = "button";
-          editButton.textContent = "Edit";
-          editButton.className = "action-button edit-button";
+          editButton.className = "btn btn-sm btn-outline-primary";
+
+          editButton.innerHTML = `
+  <i class="fa-solid fa-pen-to-square me-1"></i>
+  Edit
+`;
 
           editButton.addEventListener("click", () => {
             if (
@@ -223,8 +227,12 @@ export async function initializePostsUI(
           const deleteButton = document.createElement("button");
 
           deleteButton.type = "button";
-          deleteButton.textContent = "Delete";
-          deleteButton.className = "action-button delete-button";
+          deleteButton.className = "btn btn-sm btn-outline-danger";
+
+          deleteButton.innerHTML = `
+  <i class="fa-solid fa-trash me-1"></i>
+  Delete
+`;
 
           deleteButton.addEventListener("click", async () => {
             const confirmed = window.confirm(
