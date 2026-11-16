@@ -9,6 +9,18 @@ import postRoutes from "./routes/postRoutes";
 import userRoutes from "./routes/userRoutes";
 
 const app = express();
+// Prevent browser and proxy caching of API responses.
+app.use((req, res, next) => {
+  res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate",
+  );
+
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+
+  next();
+});
 const port = Number(process.env.PORT ?? 3000);
 
 app.use(helmet());

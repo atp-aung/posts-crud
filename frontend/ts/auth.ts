@@ -43,6 +43,12 @@ if (document.querySelector("#login-form, #signup-form")) {
 // Login
 const loginForm = document.querySelector<HTMLFormElement>("#login-form");
 
+window.addEventListener("pageshow", () => {
+  if (loginForm) {
+    loginForm.reset();
+  }
+});
+
 loginForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -63,7 +69,9 @@ loginForm?.addEventListener("submit", async (event) => {
 
     message.textContent = result.message || "Login successful.";
 
-    window.location.href = "index.html";
+    // Clear login credentials
+    loginForm.reset();
+    window.location.replace("index.html");
   } catch (error) {
     message.textContent =
       error instanceof Error ? error.message : "Login failed.";

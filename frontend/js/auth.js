@@ -20,6 +20,11 @@ if (document.querySelector("#login-form, #signup-form")) {
 }
 // Login
 const loginForm = document.querySelector("#login-form");
+window.addEventListener("pageshow", () => {
+    if (loginForm) {
+        loginForm.reset();
+    }
+});
 loginForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const email = document
@@ -33,7 +38,9 @@ loginForm?.addEventListener("submit", async (event) => {
             password,
         });
         message.textContent = result.message || "Login successful.";
-        window.location.href = "index.html";
+        // Clear login credentials
+        loginForm.reset();
+        window.location.replace("index.html");
     }
     catch (error) {
         message.textContent =

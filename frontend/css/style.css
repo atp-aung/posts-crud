@@ -1,62 +1,522 @@
+/* ==============================
+   1. CSS Variables
+================================ */
+
+:root {
+  --primary-color: #16a34a;
+  --primary-dark: #15803d;
+  --primary-light: #dcfce7;
+
+  --secondary-color: #64748b;
+  --danger-color: #dc2626;
+
+  --background-color: #f8fafc;
+  --surface-color: #ffffff;
+
+  --text-color: #1e293b;
+  --muted-color: #64748b;
+
+  --border-color: #e2e8f0;
+
+  --shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+
+  --radius: 12px;
+}
+
+/* ==============================
+   2. Reset
+================================ */
+
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  margin: 0;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  font-family: Arial, Helvetica, sans-serif;
+
+  background: var(--background-color);
+  color: var(--text-color);
+
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-.auth-container {
-  max-width: 400px;
-  margin: 60px auto;
-  padding: 30px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  text-align: center;
-}
-
-form div {
-  margin-bottom: 18px;
-}
-
-label {
-  display: block;
-  margin-bottom: 6px;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+button,
+input,
+textarea {
+  font: inherit;
 }
 
 button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  background: #2563eb;
-  color: white;
   cursor: pointer;
 }
 
-button:hover {
-  background: #1d4ed8;
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-#message {
-  color: #dc2626;
+/* ==============================
+   3. Header
+================================ */
+
+.app-header {
+  background: #166534;
+  color: #ffffff;
+
+  padding: 16px 0;
+
+  box-shadow: var(--shadow);
+}
+
+.header-container {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.brand {
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+
+  gap: 20px;
+  font-size: 14px;
+}
+
+.user-info strong {
+  color: #dcfce7;
+}
+
+.logout-button {
+  background: transparent;
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+
+  padding: 8px 16px;
+
+  transition: 0.2s;
+}
+
+.logout-button:hover {
+  background: #ffffff;
+  color: #166534;
+}
+
+/* ==============================
+   4. Main Container
+================================ */
+
+.main-container {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+
+  padding: 40px 0;
+}
+
+/* ==============================
+   5. Page Heading
+================================ */
+
+.page-heading {
+  margin-bottom: 28px;
+}
+
+.section-label {
+  display: inline-block;
+
+  color: var(--primary-dark);
+  background: var(--primary-light);
+
+  padding: 5px 12px;
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.page-heading h1 {
+  font-size: clamp(26px, 4vw, 34px);
+  margin: 12px 0 6px;
+}
+
+.page-heading p {
+  color: var(--muted-color);
+}
+
+/* ==============================
+   6. Notification Message
+================================ */
+
+.message {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.message:empty {
+  display: none;
+}
+
+/* ==============================
+   7. Sections
+================================ */
+
+.post-form-section,
+.posts-section {
+  background: var(--surface-color);
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+
+  box-shadow: var(--shadow);
+}
+
+.post-form-section {
+  margin-bottom: 32px;
+}
+
+.section-heading {
+  padding: 22px 24px;
+
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-heading h2 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.section-heading p {
+  color: var(--muted-color);
+  font-size: 14px;
+}
+
+.form-container {
+  padding: 24px;
+}
+
+/* ==============================
+   8. Form
+================================ */
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+
+  font-weight: 600;
+  margin-bottom: 8px;
+
+  font-size: 14px;
+}
+
+.required {
+  color: var(--danger-color);
+}
+
+.form-group input,
+.form-group textarea {
+  display: block;
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: var(--text-color);
+
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* ==============================
+   9. Form Buttons
+================================ */
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.primary-button,
+.secondary-button {
+  border: none;
+  border-radius: 8px;
+
+  padding: 11px 22px;
+
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.primary-button {
+  background: var(--primary-color);
+  color: #ffffff;
+}
+
+.primary-button:hover {
+  background: var(--primary-dark);
+}
+
+.secondary-button {
+  background: #f1f5f9;
+  color: var(--text-color);
+
+  border: 1px solid var(--border-color);
+}
+
+.secondary-button:hover {
+  background: #e2e8f0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ==============================
+   10. Posts Section
+================================ */
+
+.posts-section {
+  overflow: hidden;
+}
+
+.posts-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 15px;
+}
+
+.posts-label {
+  display: inline-block;
+
+  background: #eff6ff;
+  color: #1d4ed8;
+
+  padding: 7px 12px;
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ==============================
+   11. Posts Table
+================================ */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.posts-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  text-align: left;
+  min-width: 650px;
+}
+
+.posts-table th,
+.posts-table td {
+  padding: 15px 18px;
+
+  border-bottom: 1px solid var(--border-color);
+
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.posts-table th {
+  background: #f8fafc;
+
+  color: #475569;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.posts-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.posts-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.empty-message {
+  text-align: center;
+  color: var(--muted-color);
+  padding: 30px !important;
+}
+
+/* ==============================
+   12. Footer
+================================ */
+
+.app-footer {
+  margin-top: 45px;
+  padding: 25px 10px;
+
+  border-top: 1px solid var(--border-color);
+
   text-align: center;
 }
 
-p {
-  text-align: center;
+.app-footer p {
+  color: var(--muted-color);
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+/* ==============================
+   13. Responsive Design
+================================ */
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-info {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .main-container {
+    padding: 28px 0;
+  }
+
+  .section-heading {
+    padding: 18px;
+  }
+
+  .form-container {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 21px;
+  }
+
+  .user-info {
+    font-size: 13px;
+  }
+
+  .logout-button {
+    padding: 7px 12px;
+  }
+
+  .main-container {
+    width: 94%;
+  }
+
+  .posts-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .section-heading h2 {
+    font-size: 18px;
+  }
+}
+
+/* ==============================
+   14. Post Action Buttons
+================================ */
+
+.action-button {
+  border: none;
+  border-radius: 6px;
+
+  padding: 7px 14px;
+  margin: 3px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+}
+
+.edit-button {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.edit-button:hover {
+  background: #bfdbfe;
+}
+
+.delete-button {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.delete-button:hover {
+  background: #fecaca;
 }
