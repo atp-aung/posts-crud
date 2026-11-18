@@ -97,6 +97,14 @@ export async function logout() {
     await apiRequest("/auth/logout", "POST");
     window.location.href = "login.html";
 }
+// Change Password
+export async function changePassword(currentPassword, newPassword) {
+    const result = await apiRequest("/auth/change-password", "PUT", {
+        currentPassword,
+        newPassword,
+    });
+    return result.message;
+}
 // Protect pages that require authentication
 export async function requireAuth() {
     const user = await getCurrentUser();

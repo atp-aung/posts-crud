@@ -169,6 +169,12 @@
             <span>Create New Post</span>
           </a>
 
+          <!-- Change Password -->
+          <a href="#change-password" class="sidebar-link">
+            <i class="fa-solid fa-key"></i>
+            <span>Change Password</span>
+          </a>
+
           <a href="#posts" class="sidebar-link">
             <i class="fa-solid fa-table-list"></i>
             <span>All Posts</span>
@@ -420,6 +426,82 @@
               </table>
             </div>
           </section>
+
+          <!-- Change Password Section -->
+          <section
+            id="change-password"
+            class="content-card bg-white p-3 p-md-4 mb-4"
+          >
+            <div class="mb-4">
+              <h5 class="fw-bold text-dark mb-1">
+                <i class="fa-solid fa-key text-primary me-2"></i>
+                Change Password
+              </h5>
+
+              <p class="text-secondary small mb-0">
+                Update your account password.
+              </p>
+            </div>
+
+            <div
+              id="password-message"
+              class="mb-3 small"
+              role="status"
+              aria-live="polite"
+            ></div>
+
+            <form id="change-password-form">
+              <div class="mb-3">
+                <label for="current-password" class="form-label">
+                  Current Password <span class="required">*</span>
+                </label>
+
+                <input
+                  type="password"
+                  id="current-password"
+                  class="form-control"
+                  autocomplete="current-password"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="new-password" class="form-label">
+                  New Password <span class="required">*</span>
+                </label>
+
+                <input
+                  type="password"
+                  id="new-password"
+                  class="form-control"
+                  minlength="8"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="confirm-password" class="form-label">
+                  Confirm New Password <span class="required">*</span>
+                </label>
+
+                <input
+                  type="password"
+                  id="confirm-password"
+                  class="form-control"
+                  minlength="8"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk me-1"></i>
+                Update Password
+              </button>
+            </form>
+          </section>
+
           <!-- Footer -->
           <footer
             class="app-footer d-flex flex-wrap justify-content-between gap-2 mt-4"

@@ -140,6 +140,23 @@ export async function logout(): Promise<void> {
   window.location.href = "login.html";
 }
 
+// Change Password
+export async function changePassword(
+  currentPassword: string,
+  newPassword: string,
+): Promise<string> {
+  const result = await apiRequest<{ message: string }>(
+    "/auth/change-password",
+    "PUT",
+    {
+      currentPassword,
+      newPassword,
+    },
+  );
+
+  return result.message;
+}
+
 // Protect pages that require authentication
 export async function requireAuth(): Promise<AuthUser> {
   const user = await getCurrentUser();

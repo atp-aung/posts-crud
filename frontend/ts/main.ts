@@ -1,4 +1,4 @@
-import { requireAuth, logout } from "./auth.js";
+import { requireAuth, logout, changePassword } from "./auth.js";
 import { initializePostsUI } from "./posts.js";
 import { getAllUsers, renderUsers } from "./users.js";
 
@@ -33,6 +33,91 @@ async function initializeApp(): Promise<void> {
         logoutButton.disabled = false;
 
         alert(error instanceof Error ? error.message : "Logout failed.");
+      }
+    });
+    const changePasswordForm = document.querySelector<HTMLFormElement>(
+      "#change-password-form",
+    );
+
+    const currentPasswordInput =
+      document.querySelector<HTMLInputElement>("#current-password");
+
+    const newPasswordInput =
+      document.querySelector<HTMLInputElement>("#new-password");
+
+    const confirmPasswordInput =
+      document.querySelector<HTMLInputElement>("#confirm-password");
+
+    const passwordMessage =
+      document.querySelector<HTMLElement>("#password-message");
+
+    changePasswordForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (
+        !currentPasswordInput ||
+        !newPasswordInput ||
+        !confirmPasswordInput ||
+        !passwordMessage
+      ) {
+        return;
+      }
+
+      const currentPassword = currentPasswordInput.value;
+      const newPassword = newPasswordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      passwordMessage.textContent = "";
+      passwordMessage.className = "mb-3 small";
+
+      if (newPassword.length < 8) {
+        passwordMessage.textContent =
+          "New password must be at least 8 characters.";
+
+        passwordMessage.classList.add("text-danger");
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        passwordMessage.textContent =
+          "New password and confirm password do not match.";
+
+        passwordMessage.classList.add("text-danger");
+        return;
+      }
+
+      if (currentPassword === newPassword) {
+        passwordMessage.textContent =
+          "New password must be different from current password.";
+
+        passwordMessage.classList.add("text-danger");
+        return;
+      }
+
+      const submitButton = changePasswordForm.querySelector<HTMLButtonElement>(
+        'button[type="submit"]',
+      );
+
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+
+      try {
+        const message = await changePassword(currentPassword, newPassword);
+
+        passwordMessage.textContent = message;
+        passwordMessage.classList.add("text-success");
+
+        changePasswordForm.reset();
+      } catch (error) {
+        passwordMessage.textContent =
+          error instanceof Error ? error.message : "Could not change password.";
+
+        passwordMessage.classList.add("text-danger");
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+        }
       }
     });
 
