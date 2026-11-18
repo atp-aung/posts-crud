@@ -173,6 +173,15 @@
             <i class="fa-solid fa-table-list"></i>
             <span>All Posts</span>
           </a>
+          <!-- Admin Only: User Management -->
+          <a
+            href="#user-management"
+            id="user-management-nav"
+            class="sidebar-link d-none"
+          >
+            <i class="fa-solid fa-users"></i>
+            <span>User Management</span>
+          </a>
         </nav>
 
         <!-- Sidebar Footer -->
@@ -347,6 +356,70 @@
             </div>
           </section>
 
+          <!-- Admin Only: User Management -->
+          <section
+            id="user-management"
+            class="content-card bg-white overflow-hidden d-none mb-4"
+          >
+            <!-- Section Header -->
+            <div
+              class="p-3 p-md-4 border-bottom d-flex flex-wrap align-items-center justify-content-between gap-3"
+            >
+              <div>
+                <h5 class="fw-bold text-dark mb-1">
+                  <i class="fa-solid fa-users text-primary me-2"></i>
+                  User Management
+                </h5>
+
+                <p class="text-secondary small mb-0">
+                  View and manage registered users.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                id="refresh-users"
+                class="btn btn-outline-primary btn-sm"
+              >
+                <i class="fa-solid fa-rotate me-1"></i>
+                Refresh
+              </button>
+            </div>
+
+            <!-- Users Message -->
+            <div class="px-3 px-md-4 pt-3">
+              <div
+                id="users-message"
+                class="small"
+                role="status"
+                aria-live="polite"
+              ></div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody id="users-table-body">
+                  <tr>
+                    <td colspan="6" class="text-center text-secondary py-5">
+                      Loading users...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
           <!-- Footer -->
           <footer
             class="app-footer d-flex flex-wrap justify-content-between gap-2 mt-4"
